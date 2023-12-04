@@ -1,0 +1,57 @@
+[tool.poetry]
+name = "aiomarketstack"
+version = "0.1.0"
+description = "asyncio Marketstack.com Client"
+authors = ["Marko Vejnovic <markove2000@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "aiomarketstack" }]
+
+[tool.poetry.dependencies]
+aiohttp = "^3.7.3"
+python = "^3.9"
+structlog = "^23.1.0"
+
+[tool.poetry.group.test.dependencies]
+mypy = "^1.7.1"
+numpy = "^1.26.2"
+pytest = "^7.4.3"
+pytest-asyncio = "^0.23.1"
+pytest-cov = "^4.1.0"
+ruff = "^0.1.6"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "D203",
+    "D213"
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/{tests,docs}/*" = [
+    "FBT001",  # FBT001 Boolean-typed positional argument in function definition
+    "FBT002",  # FBT002 Boolean default positional argument in function
+               # definition
+    "S101",    # S101 Use of `assert` detected
+    "C419",    # C419 Unnecessary list comprehension.
+               # True, but in tests it is useful to have the prinout actually spit out
+               # the list, including the values, than just the generator.
+]
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "if TYPE_CHECKING:"
+]
+
+[tool.coverage.html]
+directory = "build-artifacts/htmlcov"

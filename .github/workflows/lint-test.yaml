@@ -1,0 +1,36 @@
+name: lint-and-test
+run-name: Lint and Test
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: Build Lint and Test Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get upgrade -y
+          sudo apt-get install -y poetry
+          poetry install
+
+      - name: Build Lint and Test
+        run: |
+          make ci-build-lint-test
+        env:
+          MARKETSTACK_TOKEN_TEST: "${{ secrets.MarketstackFreeTestToken }}"
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts.tar.gz
+          path: build-artifacts.tar.gz
