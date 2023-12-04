@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, NotRequired, Required, Sequence, TypedDict
+from typing import TYPE_CHECKING, Sequence, TypedDict
 
 if TYPE_CHECKING:
     from datetime import date
+
+    from typing_extensions import NotRequired, Required
 
 
 class Eod(TypedDict):
