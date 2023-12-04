@@ -7,17 +7,18 @@ readme = "README.md"
 packages = [{ include = "aiomarketstack" }]
 
 [tool.poetry.dependencies]
-aiohttp = "^3.7.3"
-python = "^3.9"
-structlog = "^23.1.0"
+aiohttp = {version = "^3.9.1", python = "^3.8"}
+python = "^3.8"
+structlog = {version = "^23.2.0", python = "^3.8"}
+typing-extensions = {version = "^4.8.0", python = "^3.8"}
 
 [tool.poetry.group.test.dependencies]
-mypy = "^1.7.1"
-numpy = "^1.26.2"
-pytest = "^7.4.3"
-pytest-asyncio = "^0.23.1"
-pytest-cov = "^4.1.0"
-ruff = "^0.1.6"
+mypy = {version = "^1.7.1", python = "^3.8"}
+numpy = {version = "^1.24", python = "^3.8"}
+pytest = {version = "^7.4.3", python = "^3.8"}
+pytest-asyncio = {version = "^0.23.1", python = "^3.8"}
+pytest-cov = {version = "^4.1.0", python = "^3.8"}
+ruff = {version = "^0.1.6", python = "^3.8"}
 
 [build-system]
 requires = ["poetry-core"]
@@ -35,7 +36,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"**/{tests,docs}/*" = [
+"**/tests/*" = [
     "FBT001",  # FBT001 Boolean-typed positional argument in function definition
     "FBT002",  # FBT002 Boolean default positional argument in function
                # definition
@@ -43,6 +44,13 @@ ignore = [
     "C419",    # C419 Unnecessary list comprehension.
                # True, but in tests it is useful to have the prinout actually spit out
                # the list, including the values, than just the generator.
+]
+
+"**/docs/*" = [
+    "INP",  # It's okay to have scripts as examples.
+    "D",  # Examples do not need documentation
+    "TCH001",  # Do not need typechecking blocks for examples
+    "T201",  # Print is okay in examples
 ]
 
 [tool.coverage.run]

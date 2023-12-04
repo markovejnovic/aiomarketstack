@@ -160,4 +160,5 @@ cython_debug/
 #.idea/
 
 # Build Artifact ignores
-build-artifacts
+build-artifacts*/
+build-artifacts.tar.gz

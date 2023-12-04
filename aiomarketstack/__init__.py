@@ -21,7 +21,7 @@
 from __future__ import annotations
 
 import warnings
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from enum import IntEnum
 from typing import (
     TYPE_CHECKING,
@@ -29,12 +29,14 @@ from typing import (
     Callable,
     Collection,
     Literal,
-    Self,
 )
 
 import aiohttp
 import structlog
 from aiohttp import ClientResponse, ClientSession
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 from aiomarketstack.exceptions import (
     ForbiddenError,
@@ -306,8 +308,15 @@ class _MarketstackClient:
             "dividend": raw_eod["dividend"],
             "symbol": raw_eod["symbol"],
             "exchange": raw_eod["exchange"],
-            "date": datetime.fromisoformat(raw_eod["date"]).date(),
+            "date": _MarketstackClient._parse_marketstack_date(raw_eod["date"]),
         }
+
+    @staticmethod
+    def _parse_marketstack_date(date_str: str) -> date:
+        # Necessary because python < 3.11's fromisoformat didn't support IS8601.
+        marketstack_date_format = "%Y-%m-%dT%H:%M:%S%z"
+        return datetime.strptime(date_str, marketstack_date_format) \
+            .replace(tzinfo=timezone.utc).date()
 
 
 class HttpMarketstackClient(_MarketstackClient):

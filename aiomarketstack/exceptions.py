@@ -1,8 +1,8 @@
 """Marketstack Error Response Errors."""
 
-from typing import Self
 
 from aiohttp.client import ClientResponse
+from typing_extensions import Self
 
 
 class ResponseError(Exception):
